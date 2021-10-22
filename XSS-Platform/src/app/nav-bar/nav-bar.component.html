@@ -1,0 +1,6 @@
+<div>
+  <div class="nav-header">Choose Level</div>
+  <div *ngFor="let level of levels">
+    <app-nav-item [routerLink]='level.levelRoute' [levelNumber]='level.levelNumber' [selected]='level.isSelected' [completed]='level.isCompleted' (click)="onClick(level)"></app-nav-item>
+  </div>
+</div>

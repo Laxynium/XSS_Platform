@@ -1,7 +1,9 @@
 <div class="main">
-  <app-nav-bar class="nav-bar" [levels]='levels' (selectedLevelChange)="selectedLevel=$event"></app-nav-bar>
+  <app-nav-bar class="nav-bar" (selectedLevelChange)="selectedLevel=$event"></app-nav-bar>
   <div class="content">
     <div class="content-header">Level {{selectedLevel}}</div>
-    <router-outlet></router-outlet>
+    <div class="router-content">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

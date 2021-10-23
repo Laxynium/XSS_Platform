@@ -1,5 +1,6 @@
 import { Level } from './../levels';
 import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { LevelService } from '../level.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,9 +10,11 @@ import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 export class NavBarComponent implements OnInit {
   @Input() selectedLevel: number = 1;
   @Output() selectedLevelChange = new EventEmitter<number>();
-  @Input() levels: Level[] = [];
+  levels: Level[] = [];
 
-  constructor() { }
+  constructor(levelService: LevelService) {
+    this.levels = levelService.getLevels();
+   }
 
   ngOnInit(): void {
   }

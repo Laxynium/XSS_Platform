@@ -11,6 +11,9 @@ import { Level3Component } from './levels/level3/level3.component';
 import { FormsModule } from '@angular/forms';
 import { SafePipe } from './safe-pipe.pipe';
 
+import { StoreModule } from '@ngrx/store';
+import { scoreReducer } from './score.reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +27,8 @@ import { SafePipe } from './safe-pipe.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot({ score: scoreReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]

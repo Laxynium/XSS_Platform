@@ -1,8 +1,8 @@
 <div class="main">
-  <app-nav-bar class="nav-bar" (selectedLevelChange)="selectedLevel=$event"></app-nav-bar>
+  <app-nav-bar class="nav-bar"></app-nav-bar>
   <div class="content">
-    <div class="content-header">Level {{selectedLevel}}</div>
     <div class="router-content">
+      Current score: {{ score$ | async }}
       <router-outlet></router-outlet>
     </div>
   </div>

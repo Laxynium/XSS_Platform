@@ -103,6 +103,43 @@
             ],
             "scripts": []
           }
+        },
+        "cypress-run": {
+          "builder": "@briebug/cypress-schematic:cypress",
+          "options": {
+            "devServerTarget": "XSS-Platform:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "XSS-Platform:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@briebug/cypress-schematic:cypress",
+          "options": {
+            "devServerTarget": "XSS-Platform:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "XSS-Platform:serve:production"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@briebug/cypress-schematic:cypress",
+          "options": {
+            "devServerTarget": "XSS-Platform:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "XSS-Platform:serve:production"
+            }
+          }
         }
       }
     }

@@ -1,6 +1,8 @@
 import { Level } from './../levels';
 import { Component, OnInit} from '@angular/core';
 import { LevelService } from '../level.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,13 +11,14 @@ import { LevelService } from '../level.service';
 })
 export class NavBarComponent implements OnInit {
   levels: Level[] = [];
+  score: Observable<number>;
 
-  constructor(public levelService: LevelService) {
+  constructor(private levelService: LevelService, private store: Store<{ score: number }>) {
     this.levels = levelService.getLevels();
-   }
-
-  ngOnInit(): void {
+    this.score = store.select('score');
   }
+
+  ngOnInit(): void {}
 
   onClick(clickedLevel: Level): void {
     this.levelService.changeSelectedLevel(clickedLevel.levelNumber);

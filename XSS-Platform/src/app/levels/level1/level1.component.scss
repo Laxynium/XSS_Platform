@@ -55,11 +55,17 @@
 
 .hint-button {
   color: #149414;
-  border: 2px solid black;
+  border: 2px solid #149414;
   font-weight: bold;
   margin-top: 1rem;
   height: 46px;
   width: 100%;
+  cursor: pointer;
+}
+
+.hint-button:hover {
+  color: white;
+  background-color: #149414;
 }
 
 .hint-box {

@@ -6,7 +6,6 @@ import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'level1';
   completed: boolean = false;
   providedString: string = '';
   @ViewChild('input') inputElement!: ElementRef;
@@ -27,6 +26,4 @@ export class AppComponent {
   verify(): void {
     this.providedString = this.inputElement.nativeElement.value;
   }
-
-
 }

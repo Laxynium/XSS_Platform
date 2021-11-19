@@ -1,6 +1,4 @@
 <div class="router-container">
-  <div class="content-header">Level 1</div>
-
   <div class="level-container" *ngIf="!completed">
       <div class="level-description">
         <div class="header-text">Mission description!</div>
@@ -22,20 +20,18 @@
 
         <div class="header-text">Your target</div>
       </div>
-      <div class="testDiv" [innerHtml]="providedString | safeHtml: 'html'"></div>
-      <div>
-        <div class="target-container">
-          <input class="input-field" type="text" #input/>
-          <button class="verify-button" (click)="verify()">Verify</button>
-        </div>
-        <button class="hint-button" (click)="showHint()">Show Hint ?</button>
+
+      <div class="frame">
+        <iframe id="iframe" class="iframe" src="http://localhost:3001"></iframe>
       </div>
-      <div class="hint-box" #hintBox></div>
+      <button class="hint-button" (click)="showHint()">Show Hint ?</button>
+      <div class="hint-container">
+        <h3 style="text-align: center;">Hits:</h3>
+        <div class="hint-box" #hintBox></div>
+      </div>
     </div>
 
-    <div class="success-container" *ngIf="completed">
-      <div class="header-text">Success!!!</div>
-
+    <div class="level-container" *ngIf="completed">
       <div class="stars-container">
         <div *ngFor="let hint of hints">
           <div class="star-completed">&starf;</div>

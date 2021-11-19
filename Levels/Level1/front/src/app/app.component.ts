@@ -3,7 +3,7 @@ import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   completed: boolean = false;
@@ -17,10 +17,10 @@ export class AppComponent {
     window.alert = () => {
       originalAlert('Success!');
       this.zone.run(() => {
-        parent.postMessage("success", "*");
+        parent.postMessage('success', '*');
         this.completed = true;
       });
-    }
+    };
   }
 
   verify(): void {

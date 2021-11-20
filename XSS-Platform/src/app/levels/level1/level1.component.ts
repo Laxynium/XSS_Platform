@@ -41,21 +41,33 @@ export class Level1Component implements OnInit {
     if(hint) this.hintBoxElement.nativeElement.innerHTML += `<div class="paragraph-text">${hint}</div>`
   }
 
-  getLevelFiles(): void {
-    axios({
-      url: 'https://source.unsplash.com/random/500x500',
+  async getLevelFiles(): Promise<void> {
+    // const result = await new Octokit().request('GET /repos/{owner}/{repo}/zipball/{ref}', {
+    //   owner: 'Laxynium',
+    //   repo: 'XSS_Platform',
+    //   ref: 'master',
+    // });
+    // console.log(result)
+
+    const githubURL = 'https://student.agh.edu.pl/~kunc/Soa-egzamin.pdf'
+    fetch(githubURL, {
+      mode: 'no-cors',
       method: 'GET',
-      responseType: 'blob'
+      headers: { 'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Methods": "GET, POST, PUT",
+      "Access-Control-Allow-Credentials": "true",
+      "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization" }
     })
     .then((response) => {
-            const url = window.URL
-                  .createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'image.jpg');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+          console.log(response);
+            // const url = window.URL
+            //       .createObjectURL(new Blob([response.data]));
+            // const link = document.createElement('a');
+            // link.href = url;
+            // link.setAttribute('download', 'image.jpg');
+            // document.body.appendChild(link);
+            // link.click();
+            // document.body.removeChild(link);
       })
   }
 

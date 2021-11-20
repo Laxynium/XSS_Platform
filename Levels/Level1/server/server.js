@@ -2,17 +2,21 @@
 var express = require("express");
 const asyncHandler = require("express-async-handler");
 const puppeteer = require("puppeteer");
+var bodyParser = require("body-parser");
+
 var app = express();
 const port = 3000;
 
-app.use(
-  asyncHandler(async (req, res, next) => {
-    if (
-      req.headers["skip-validation"] ||
-      req.url.endsWith(".js") ||
-      req.url.endsWith(".css")
-    ) {
-      next();
+const jsonParser = bodyParser.json();
+
+app.post(
+  "/verify",
+  jsonParser,
+  asyncHandler(async (req, res) => {
+    const { payload } = req.body;
+    //skip-validation is used in order to avoid infinite loop
+    if (req.headers["skip-validation"]) {
+      res.json({ validationResult: null });
       return;
     } else {
       try {
@@ -28,24 +32,23 @@ app.use(
         page.setExtraHTTPHeaders({
           "skip-validation": "true",
         });
+        let nextLevelToken = null; //TODO this token should be fetch from main server
         page.on("dialog", async (dialog) => {
-          res.setHeader("X-Validation-Result", "12345");
-
+          nextLevelToken = "1234abcd";
+          res.setHeader("X-Validation-Result", nextLevelToken);
           await dialog.accept();
         });
-        const url = req.url;
-        await page.goto(`http://localhost:${port}${url}`);
-        // TODO use it for another level
-        // await page.focus("input.input-field");
-        // await page.keyboard.type('<img src="" onerror="alert(1)"></img>');
-        // await page.click("button.verify-button");
-        page.waitForTimeout(2000);
+        await page.goto(`http://localhost:${port}`);
+        await page.waitForSelector("input.input-field");
+        await page.focus("input.input-field");
+        await page.keyboard.type(payload);
+        await page.click("button.verify-button");
         await browser.close();
+
+        res.json({ validationResult: nextLevelToken });
       } catch (error) {
         console.log(error);
       }
-
-      next();
     }
   })
 );

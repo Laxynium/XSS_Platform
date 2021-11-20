@@ -1,0 +1,90 @@
+.testDiv {
+  display: none;
+}
+
+.iframe {
+  background-color: grey;
+  width: 400px;
+  height: 300px;
+}
+
+.stars-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.star-completed {
+  font-size: 32px;
+  color: yellow;
+}
+
+.star {
+  font-size: 32px;
+  color: white;
+}
+
+.hint-button {
+  color: #149414;
+  border: 2px solid #149414;
+  font-weight: bold;
+  margin-top: 1rem;
+  height: 30px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.hint-button:hover {
+  color: white;
+  background-color: #149414;
+}
+
+.hint-container {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  width: 200px;
+  height: 200px;
+  border: 1px solid white;
+  background-color: white;
+  color: black;
+  border-radius: .5rem;
+}
+
+.hint-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+
+.action-button {
+  width: 200px;
+  margin: 4px;
+  padding: 4px;
+  border-radius: .5rem;
+  border: 1px solid white;
+}
+
+.action-button:hover {
+  cursor: pointer;
+}
+
+.action-button--primary {
+  background-color:cornflowerblue;
+}
+
+.action-button--primary:hover {
+  background: white;
+  border: 1px solid cornflowerblue;
+}
+
+.action-button--secondary {
+  background-color: grey;
+}
+
+.action-button--secondary:hover {
+  background: white;
+  border: 1px solid grey;
+}

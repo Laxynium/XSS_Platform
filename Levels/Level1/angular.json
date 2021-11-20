@@ -103,6 +103,37 @@
             ],
             "scripts": []
           }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "level1:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "level1:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "level1:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "level1:serve:production"
+            }
+          }
         }
       }
     }

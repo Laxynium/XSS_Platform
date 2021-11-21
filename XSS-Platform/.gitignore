@@ -12,7 +12,7 @@
 
 # profiling files
 chrome-profiler-events*.json
-
+.DS_Store
 # IDEs and editors
 /.idea
 .project

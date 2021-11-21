@@ -10,7 +10,7 @@
 
 # production
 /build
-
+.DS_Store
 /**/.angular
 # misc
 .DS_Store

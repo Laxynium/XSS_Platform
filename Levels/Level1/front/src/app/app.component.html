@@ -2,11 +2,11 @@
 <div class="level-container">
   <div class="testDiv" [innerHtml]="providedString | safeHtml: 'html'"></div>
   <div class="target-container" *ngIf="!completed">
-    <input class="input-field" type="text" #input/>
-    <button class="verify-button" (click)="verify()">Verify</button>
+    <input id="input-xss" class="input-field" type="text" #input/>
+    <button id="verify-button" class="verify-button" (click)="verify()">Verify</button>
   </div>
 
-  <div class="success-container" *ngIf="completed">
+  <div id="success-container" class="success-container" *ngIf="completed">
     <div class="header-text">Success!!!</div>
   </div>
 </div>

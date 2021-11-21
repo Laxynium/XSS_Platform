@@ -26,12 +26,12 @@ export class AppComponent {
 
   verify(): void {
     this.providedString = this.inputElement.nativeElement.value;
-    this.xssVerification
-      .verify(this.providedString)
-      .subscribe((token) =>
-        console.log(
-          `Your answer got verified. Here is your token to next level: '${token}'`
-        )
-      );
+    // this.xssVerification
+    //   .verify(this.providedString)
+    //   .subscribe((token) =>
+    //     console.log(
+    //       `Your answer got verified. Here is your token to next level: '${token}'`
+    //     )
+    //   );
   }
 }

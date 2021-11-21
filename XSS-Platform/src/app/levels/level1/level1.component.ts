@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { increment } from 'src/app/score.actions';
 import b64ToBlob from "b64-to-blob";
 import { saveAs } from 'file-saver';
+import axios, { AxiosRequestConfig } from 'axios';
 
 @Component({
   selector: 'app-level1',
@@ -45,15 +46,27 @@ export class Level1Component implements OnInit {
 
   async getLevelFiles(): Promise<void> {
     const requestURL = SERVER_URL + '/files/1';
-    fetch(requestURL)
+
+// Payload, eg list of docs to zip
+
+// Axios options
+const axiosOptions: AxiosRequestConfig = {
+  responseType: 'arraybuffer',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+
+  axios
+    .get(requestURL, axiosOptions)
     .then((response) => {
-      console.log(response)
-      return response.text();
+      const blob = new Blob([response.data], {
+        type: 'application/octet-stream'
+      })
+      const filename = 'download.zip'
+      saveAs(blob, filename)
     })
-    .then((zipAsBase64) => {
-      const content = window.btoa(unescape(encodeURIComponent(zipAsBase64)));
-      const blob = b64ToBlob(content, "application/zip");
-      saveAs(blob, `level1.zip`);
+    .catch((e) => {
     });
   }
 

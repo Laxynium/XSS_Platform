@@ -1,39 +1,21 @@
-from flask import Flask, make_response, send_file
-
-from db.DbConnector import DbConnector
-from utils.utils import DB_NAME
 import io
 import os
+from flask import Flask, send_file
 from flask_cors import CORS
+
+from db.DbConnector import DbConnector
+from utils.utils import DB_NAME, create_zip_filename_from
 
 app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/files/<level_id>')
-def get_files(level_id):
-    response = make_response()
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Headers", "*")
-    response.headers.add("Access-Control-Allow-Methods", "*")
-    zip_path = os.path.abspath(os.path.dirname(__file__)) + '/files/level' + level_id + '.zip'
-    with open(zip_path, 'rb') as fh:
-        zip_file = io.BytesIO(fh.read())
-    zip_file.seek(0)
-
-    return send_file(zip_file, download_name='capsule.zip', as_attachment=True)
-
-
-@app.route('/<name>')
-def hello(name):
-    return f"Hello {name}"
-
-
-@app.route('/test_db')
-def test_db():
+@app.route('/files/<int:zip_id>')
+def get_zip_file(zip_id):
     db_connector = DbConnector(DB_NAME)
-    test_id, name = db_connector.read_test_data()
-    return f"id: {test_id}, name: {name}"
+    binary_zip_file = db_connector.get_zip_file(create_zip_filename_from(zip_id))
+    db_connector.close_connection()
+    return send_file(io.BytesIO(binary_zip_file[0]), mimetype="application/zip")
 
 
 if __name__ == '__main__':

@@ -1,9 +1,11 @@
+import { SERVER_URL } from './../../constants';
 import { LevelService } from './../../level.service';
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { increment } from 'src/app/score.actions';
-import axios from 'axios';
+import b64ToBlob from "b64-to-blob";
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-level1',
@@ -42,33 +44,17 @@ export class Level1Component implements OnInit {
   }
 
   async getLevelFiles(): Promise<void> {
-    // const result = await new Octokit().request('GET /repos/{owner}/{repo}/zipball/{ref}', {
-    //   owner: 'Laxynium',
-    //   repo: 'XSS_Platform',
-    //   ref: 'master',
-    // });
-    // console.log(result)
-
-    const githubURL = 'https://student.agh.edu.pl/~kunc/Soa-egzamin.pdf'
-    fetch(githubURL, {
-      mode: 'no-cors',
-      method: 'GET',
-      headers: { 'Access-Control-Allow-Origin': '*',
-      "Access-Control-Allow-Methods": "GET, POST, PUT",
-      "Access-Control-Allow-Credentials": "true",
-      "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization" }
-    })
+    const requestURL = SERVER_URL + '/files/1';
+    fetch(requestURL)
     .then((response) => {
-          console.log(response);
-            // const url = window.URL
-            //       .createObjectURL(new Blob([response.data]));
-            // const link = document.createElement('a');
-            // link.href = url;
-            // link.setAttribute('download', 'image.jpg');
-            // document.body.appendChild(link);
-            // link.click();
-            // document.body.removeChild(link);
-      })
+      console.log(response)
+      return response.text();
+    })
+    .then((zipAsBase64) => {
+      const content = window.btoa(unescape(encodeURIComponent(zipAsBase64)));
+      const blob = b64ToBlob(content, "application/zip");
+      saveAs(blob, `level1.zip`);
+    });
   }
 
   goToNextLevel(): void {

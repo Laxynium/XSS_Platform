@@ -4,7 +4,6 @@ import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { increment } from 'src/app/score.actions';
-import b64ToBlob from "b64-to-blob";
 import { saveAs } from 'file-saver';
 import axios, { AxiosRequestConfig } from 'axios';
 
@@ -47,27 +46,24 @@ export class Level1Component implements OnInit {
   async getLevelFiles(): Promise<void> {
     const requestURL = SERVER_URL + '/files/1';
 
-// Payload, eg list of docs to zip
+    const axiosOptions: AxiosRequestConfig = {
+      responseType: 'arraybuffer',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
 
-// Axios options
-const axiosOptions: AxiosRequestConfig = {
-  responseType: 'arraybuffer',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-}
-
-  axios
-    .get(requestURL, axiosOptions)
-    .then((response) => {
-      const blob = new Blob([response.data], {
-        type: 'application/octet-stream'
+    axios
+      .get(requestURL, axiosOptions)
+      .then((response) => {
+        const blob = new Blob([response.data], {
+          type: 'application/octet-stream'
+        })
+        const filename = 'download.zip'
+        saveAs(blob, filename)
       })
-      const filename = 'download.zip'
-      saveAs(blob, filename)
-    })
-    .catch((e) => {
-    });
+      .catch((e) => {
+      });
   }
 
   goToNextLevel(): void {

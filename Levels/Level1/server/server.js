@@ -5,7 +5,7 @@ const puppeteer = require("puppeteer");
 var bodyParser = require("body-parser");
 
 var app = express();
-const port = 3001;
+const port = 3000;
 
 const jsonParser = bodyParser.json();
 
@@ -32,20 +32,19 @@ app.post(
         page.setExtraHTTPHeaders({
           "skip-validation": "true",
         });
-        let nextLevelToken = null; //TODO this token should be fetch from main server
+        let nextLevelToken = "null"; //TODO this token should be fetch from main server
         page.on("dialog", async (dialog) => {
+          console.log("Dialog opened!")
           nextLevelToken = "1234abcd";
           res.setHeader("X-Validation-Result", nextLevelToken);
           await dialog.accept();
+          res.json({ validationResult: nextLevelToken });
         });
         await page.goto(`http://localhost:${port}`);
         await page.waitForSelector("input.input-field");
         await page.focus("input.input-field");
         await page.keyboard.type(payload);
         await page.click("button.verify-button");
-        await browser.close();
-
-        res.json({ validationResult: nextLevelToken });
       } catch (error) {
         console.log(error);
       }

@@ -38,13 +38,13 @@ app.post(
           nextLevelToken = "1234abcd";
           res.setHeader("X-Validation-Result", nextLevelToken);
           await dialog.accept();
-          res.json({ validationResult: nextLevelToken });
         });
         await page.goto(`http://localhost:${port}`);
         await page.waitForSelector("input.input-field");
         await page.focus("input.input-field");
         await page.keyboard.type(payload);
         await page.click("button.verify-button");
+        res.json({ validationResult: nextLevelToken });
       } catch (error) {
         console.log(error);
       }

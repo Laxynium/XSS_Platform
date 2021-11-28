@@ -26,7 +26,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-app.UseAuthorization();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

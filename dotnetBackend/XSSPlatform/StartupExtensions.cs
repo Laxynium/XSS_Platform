@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using LiteDB;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,6 +43,8 @@ namespace XSSPlatform
                         ctx.Response.StatusCode = 404;
                         return Task.CompletedTask;
                     };
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 });
             
             services.AddAuthorization(options =>

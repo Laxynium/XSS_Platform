@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureCors(builder.Configuration);
 builder.Services.ConfigureAuthorization();
 builder.Services.ConfigureTokenGeneration();
 builder.Services.ConfigureRepository(builder.Environment);
@@ -23,7 +24,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseAuthorization();
 app.UseAuthorization();

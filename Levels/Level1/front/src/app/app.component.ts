@@ -20,7 +20,6 @@ export class AppComponent {
       this.xssVerification
       .verify(this.providedString)
       .subscribe((token) => {
-        if(token.validationResult) {
           this.token = token.validationResult;
           console.log(`Token: ${token.validationResult}`);
           originalAlert("Success");
@@ -28,7 +27,6 @@ export class AppComponent {
             parent.postMessage('success', '*');
             this.completed = true;
           });
-        }
       });
     }
   }

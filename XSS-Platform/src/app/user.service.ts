@@ -1,0 +1,53 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+
+export interface Level {
+  number: number;
+  completed: boolean;
+  token: string;
+  usedHints: { number: number; value: string }[];
+}
+
+export interface User {
+  id: string;
+  name: string;
+  levels: Level[];
+  challengeCompleted: boolean;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UserService {
+  private _user$: BehaviorSubject<User | null>;
+  public get user$(): Observable<User | null> {
+    return this._user$.asObservable();
+  }
+
+  constructor(private httpClient: HttpClient) {
+    this._user$ = new BehaviorSubject<User | null>(null);
+  }
+
+  getLoadUser(): Observable<void> {
+    return this.httpClient
+      .get<User>('http://localhost:5000/users/me', { withCredentials: true })
+      .pipe(
+        catchError((e) => {
+          console.log(e);
+          return this.httpClient.post(
+            'http://localhost:5000/users/register',
+            {
+              name: 'test',
+            },
+            { withCredentials: true }
+          );
+        }),
+        tap((user) => {
+          this._user$.next(user as User);
+        }),
+        map((_) => {})
+      );
+  }
+}

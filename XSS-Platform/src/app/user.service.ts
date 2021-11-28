@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 export interface Level {
   number: number;
@@ -32,12 +33,14 @@ export class UserService {
 
   getLoadUser(): Observable<void> {
     return this.httpClient
-      .get<User>('http://localhost:5000/users/me', { withCredentials: true })
+      .get<User>(new URL('/users/me', environment.backendUrl).href, {
+        withCredentials: true,
+      })
       .pipe(
         catchError((e) => {
           console.log(e);
           return this.httpClient.post(
-            'http://localhost:5000/users/register',
+            new URL('/users/register', environment.backendUrl).href,
             {
               name: 'test',
             },

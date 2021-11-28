@@ -9,6 +9,7 @@ const crypto = require("crypto");
 
 const app = express();
 const port = 3000;
+const mainBackendUrl = "http://host.docker.internal:5000/";
 
 const jsonParser = bodyParser.json();
 
@@ -21,7 +22,7 @@ function completeLevel(levelToken, cookies) {
     try {
       console.log("Request data: ", levelToken, cookies);
       const result = await axios.post(
-        "http://host.docker.internal:5000/users/me/levels/complete",
+        new URL("users/me/levels/complete", mainBackendUrl).href,
         { level: 1, levelToken: levelToken },
         {
           headers: {

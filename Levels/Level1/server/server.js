@@ -17,33 +17,6 @@ const skipValidationToken = crypto.randomBytes(64).toString("base64");
 
 app.use(cookieParser());
 
-function completeLevel(levelToken, cookies) {
-  return new Promise(async (resolve) => {
-    try {
-      console.log("Request data: ", levelToken, cookies);
-      const result = await axios.post(
-        new URL("users/me/levels/complete", mainBackendUrl).href,
-        { level: 1, levelToken: levelToken },
-        {
-          headers: {
-            Cookie: cookies.join("; "),
-          },
-        }
-      );
-      console.log(
-        "Response data: ",
-        result.status,
-        result.headers,
-        result.data
-      );
-      resolve({ isValid: true, user: result });
-    } catch (error) {
-      console.log(error);
-      resolve({ isValid: false });
-    }
-  });
-}
-
 app.post(
   "/verify",
   jsonParser,
@@ -77,16 +50,23 @@ app.post(
         await payloadPromise;
         const dialogResult = await dialogPromise;
 
-        if (dialogResult.isValid) {
-          var result = await completeLevel(levelToken, cookies);
-          if (result.isValid) {
-            res.json({ validationResult: "test" });
-          } else {
-            res.json({ validationResult: null });
-          }
-        } else {
+        if (!dialogResult.isValid) {
           res.json({ validationResult: null });
+          return;
         }
+
+        var result = await completeLevel(levelToken, cookies);
+        if (!result.isValid) {
+          res.json({ validationResult: null });
+          return;
+        }
+        const level = result.user.levels.find((x) => x.number === 2);
+        if (!level) {
+          res.json({ validationResult: null });
+          return;
+        }
+
+        res.json({ validationResult: level.token });
 
         function getDialogResult() {
           const dialogPromise = new Promise((resolve) => {
@@ -131,3 +111,30 @@ app.use(function (req, res, next) {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+
+function completeLevel(levelToken, cookies) {
+  return new Promise(async (resolve) => {
+    try {
+      console.log("Request data: ", levelToken, cookies);
+      const result = await axios.post(
+        new URL("users/me/levels/complete", mainBackendUrl).href,
+        { level: 1, levelToken: levelToken },
+        {
+          headers: {
+            Cookie: cookies.join("; "),
+          },
+        }
+      );
+      console.log(
+        "Response data: ",
+        result.status,
+        result.headers,
+        result.data
+      );
+      resolve({ isValid: true, user: result.data });
+    } catch (error) {
+      console.log(error);
+      resolve({ isValid: false });
+    }
+  });
+}

@@ -1,18 +1,44 @@
+import { Observable, BehaviorSubject } from 'rxjs';
+import { UserService } from 'src/app/user.service';
 import { Injectable } from '@angular/core';
-import { Level } from './levels';
+import { LevelFrontend } from './levels';
+import { Level } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LevelService {
-  levels: Level[] = [
-    {levelRoute: '/level1', levelNumber: 1, isCompleted: false, isSelected: true, numberOfHints: 0},
-    {levelRoute: '/level2', levelNumber: 2, isCompleted: false, isSelected: false, numberOfHints: 0},
-    {levelRoute: '/level3', levelNumber: 3, isCompleted: false, isSelected: false, numberOfHints: 0}
-  ];
+  levels: LevelFrontend[] = [];
+  private _levels$: BehaviorSubject<LevelFrontend[]>;
+  public get levels$(): Observable<LevelFrontend[]> {
+    return this._levels$.asObservable();
+  }
+  constructor(private userService: UserService) {
+    this._levels$ = new BehaviorSubject<LevelFrontend[]>([]);
 
-  constructor() {}
+    this.userService.user$.subscribe(user => {
+      if(user) {
+        this.levels = this.castToLevelFrontend(user.levels);
+        this._levels$.next(this.levels as LevelFrontend[]);
+      }
+    });
+  }
 
+  castToLevelFrontend(levels: Level[]): LevelFrontend[] {
+    const levelResult: LevelFrontend[] = [];
+    levels.forEach(level => {
+      const newLevel: LevelFrontend = {
+        levelRoute: `/level${level.number}`,
+        levelNumber: level.number,
+        token: level.token,
+        isCompleted: level.completed,
+        isSelected: false,
+        numberOfHints: level.usedHints.length
+      }
+      levelResult.push(newLevel);
+    });
+    return levelResult;
+  }
 
   isLevelCompleted(levelNumber: number): boolean {
     const found = this.levels.find(level => level.levelNumber == levelNumber);
@@ -20,7 +46,7 @@ export class LevelService {
     return false;
   }
 
-  getLevels(): Level[] {
+  getLevels(): LevelFrontend[] {
     return this.levels;
   }
 

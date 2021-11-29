@@ -8,7 +8,7 @@ export interface Level {
   number: number;
   completed: boolean;
   token: string;
-  usedHints: { number: number; value: string }[];
+  usedHints: { levelNumber: number; value: string }[];
 }
 
 export interface User {
@@ -48,6 +48,8 @@ export class UserService {
           );
         }),
         tap((user) => {
+          console.log("TAP")
+          console.log(user)
           this._user$.next(user as User);
         }),
         map((_) => {})

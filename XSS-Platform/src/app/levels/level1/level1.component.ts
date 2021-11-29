@@ -31,35 +31,39 @@ export class Level1Component implements OnInit {
   ];
 
   @ViewChild('hintBox') hintBoxElement!: ElementRef;
-
   @ViewChild('iframe') iframe!: ElementRef<HTMLIFrameElement>;
 
   constructor(
     public levelService: LevelService,
-    private zone: NgZone,
     private router: Router,
     private store: Store<{ score: number }>,
     private userService: UserService
   ) {
+    this.userService.user$.subscribe(user => {
+      this.completed = user?.levels.find(level => level.number === 1)?.completed ?? false;
+    })
+
     window.addEventListener(
       'message',
       (event) => {
         if (event.data === 'success') {
           this.store.dispatch(increment({ byScore: this.hints.length }));
           this.levelService.updateLevel(1, true, this.hints.length);
+          this.userService.getLoadUser().subscribe();
           this.completed = true;
           return;
         }
       },
       false
     );
+
     this.userService.user$.subscribe((user) => {
       if (user) {
         const level = user.levels.find((l) => l.number == 1);
         if (!level) {
           return;
-        }        
-        setTimeout(//using timeout to let iframe time to subscripe for message
+        }
+        setTimeout( // using timeout to let iframe time to subscribe for message
           () =>
             this.iframe.nativeElement.contentWindow?.postMessage(
               {

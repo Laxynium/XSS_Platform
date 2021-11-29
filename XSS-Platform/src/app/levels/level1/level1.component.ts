@@ -1,5 +1,4 @@
-import { SERVER_URL } from './../../constants';
-import { LevelService } from './../../level.service';
+import {LevelService} from './../../level.service';
 import {
   Component,
   ElementRef,
@@ -7,12 +6,13 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { increment } from 'src/app/score.actions';
-import { saveAs } from 'file-saver';
-import axios, { AxiosRequestConfig } from 'axios';
-import { UserService } from 'src/app/user.service';
+import {Router} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {increment} from 'src/app/score.actions';
+import {saveAs} from 'file-saver';
+import axios, {AxiosRequestConfig} from 'axios';
+import {UserService} from 'src/app/user.service';
+import {environment} from 'src/environments/environment'
 
 @Component({
   selector: 'app-level1',
@@ -47,7 +47,7 @@ export class Level1Component implements OnInit {
       'message',
       (event) => {
         if (event.data === 'success') {
-          this.store.dispatch(increment({ byScore: this.hints.length }));
+          this.store.dispatch(increment({byScore: this.hints.length}));
           this.levelService.updateLevel(1, true, this.hints.length);
           this.userService.getLoadUser().subscribe();
           this.completed = true;
@@ -64,14 +64,18 @@ export class Level1Component implements OnInit {
           return;
         }
         setTimeout( // using timeout to let iframe time to subscribe for message
-          () =>
+          () => {
+            if (!this.iframe) {
+              return;
+            }
             this.iframe.nativeElement.contentWindow?.postMessage(
               {
                 type: 'level',
                 level: level,
               },
               '*'
-            ),
+            );
+          },
           1000
         );
       }
@@ -90,13 +94,14 @@ export class Level1Component implements OnInit {
   }
 
   async getLevelFiles(): Promise<void> {
-    const requestURL = SERVER_URL + '/files/1';
+    const requestURL = new URL("files/1", environment.backendUrl).href;
 
     const axiosOptions: AxiosRequestConfig = {
       responseType: 'arraybuffer',
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
+      withCredentials: true
     };
 
     axios
@@ -108,7 +113,8 @@ export class Level1Component implements OnInit {
         const filename = 'download.zip';
         saveAs(blob, filename);
       })
-      .catch((e) => {});
+      .catch((e) => {
+      });
   }
 
   goToNextLevel(): void {

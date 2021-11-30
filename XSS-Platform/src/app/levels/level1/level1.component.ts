@@ -3,13 +3,11 @@ import {LevelService} from './../../level.service';
 import {
   Component,
   ElementRef,
-  NgZone,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {increment} from 'src/app/score.actions';
 import {saveAs} from 'file-saver';
 import axios, {AxiosRequestConfig} from 'axios';
 import {Level, UserService} from 'src/app/user.service';

@@ -1,14 +1,41 @@
 <div class="router-container">
+  <div class="level-container" *ngIf="!completed">
+      <div class="level-description">
+        <div class="header-text">Misja!</div>
+        <div class="paragraph-text">
+          Na tym poziomie występuje podatność DOM-based XSS
+        </div>
+        <div class="header-text">Cel</div>
+        <div class="paragraph-text">
+          Aby przejść poziom, nalezy spowodować pojawienie sie alertu w okienku ponizej,
+          Inject a script to pop up a JavaScript alert() in the frame below.
+          Po wykonaniu misji, będziesz miał mozliowść pobrania kodu źródłowego wraz z testami weryfikującymi, czy aplikacja została odpowiednio zabezpieczona.
+        </div>
 
-  <div class="content-header">Level 2</div>
+        <div class="header-text">Your target</div>
+      </div>
 
-  <div class="level-container">
-    <div class="level-description">
-      <div class="header-text">Mission description!</div>
+      <div class="frame">
+        <div><label>Url: </label><input type="text" [(ngModel)]="frameUrlStr"><button type="button" (click)="reload()">Reload</button></div>
+        <iframe id="iframe" class="iframe" [src]="frameUrl" #iframe (load)="frameLoaded()"></iframe>
+      </div>
+      <button class="hint-button" (click)="showHint()">Show Hint ?</button>
+      <div class="hint-container">
+        <h3 style="text-align: center;">Hits:</h3>
+        <div class="hint-box" #hintBox></div>
+      </div>
     </div>
-    <div class="frame">
-      <iframe src="http://localhost:3002"></iframe>
-    </div>
-  </div>
 
+    <div class="level-container" *ngIf="completed">
+      <div class="stars-container">
+        <div *ngFor="let hint of hints">
+          <div class="star-completed">&starf;</div>
+        </div>
+        <div *ngFor="let hint of usedHints">
+          <div class="star">&starf;</div>
+        </div>
+      </div>
+      <button class="action-button action-button--primary" (click)="getLevelFiles()">Download files</button>
+      <button class="action-button action-button--secondary" (click)="goToNextLevel()">Go to next level</button>
+    </div>
 </div>

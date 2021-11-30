@@ -44,14 +44,14 @@ app.post(
         page.setExtraHTTPHeaders({
           "skip-validation": skipValidationToken,
         });
-
+        
         const dialogPromise = getDialogResult();
         const payloadPromise = executePayload();
         await payloadPromise;
         const dialogResult = await dialogPromise;
 
         await browser.close();
-         
+        
         if (!dialogResult.isValid) {
           res.json({ validationResult: null });
           return;
@@ -82,18 +82,17 @@ app.post(
           const timer = new Promise((resolve) => {
             setTimeout(() => {
               resolve({ isValid: false });
-            }, 2000);
+            }, 3000);
           });
           return Promise.race([dialogPromise, timer]);
         }
 
         function executePayload() {
           return new Promise(async (resolve) => {
-            await page.goto(`http://localhost:${port}`);
-            await page.waitForSelector("input.input-field");
-            await page.focus("input.input-field");
-            await page.keyboard.type(payload);
-            await page.click("button.verify-button");
+            const fixedPayload = payload.replace('localhost', 'host.docker.internal')
+            console.log("Going to page: ", `http://localhost:${port}${fixedPayload}`);
+            await page.goto(`http://localhost:${port}${fixedPayload}`);
+            await page.waitForTimeout(1000);
             resolve();
           });
         }
@@ -120,7 +119,7 @@ function completeLevel(levelToken, cookies) {
       console.log("Request data: ", levelToken, cookies);
       const result = await axios.post(
         new URL("users/me/levels/complete", mainBackendUrl).href,
-        { level: 1, levelToken: levelToken },
+        { level: 2, levelToken: levelToken },
         {
           headers: {
             Cookie: cookies.join("; "),

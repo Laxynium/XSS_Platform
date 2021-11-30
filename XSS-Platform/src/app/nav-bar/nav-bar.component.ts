@@ -1,3 +1,4 @@
+import { UserService, Level } from 'src/app/user.service';
 import { LevelFrontend } from './../levels';
 import { Component, OnInit} from '@angular/core';
 import { LevelService } from '../level.service';
@@ -11,21 +12,32 @@ import { Store } from '@ngrx/store';
 })
 export class NavBarComponent implements OnInit {
   levels: LevelFrontend[] = [];
-  score: Observable<number>;
+  score: number = 0;
 
-  constructor(private levelService: LevelService, private store: Store<{ score: number }>) {
+  constructor(private levelService: LevelService, private userService: UserService, private store: Store<{ score: number }>) {
     this.levelService.levels$.subscribe(levels => {
-      console.log("LEVELS")
-      console.log(levels)
       this.levels = levels;
    });
 
-    this.score = store.select('score');
+   this.userService.user$.subscribe(user => {
+     if(user)
+      this.score = this.calculateScore(user.levels);
+   })
+    // this.score = store.select('score');
   }
 
   ngOnInit(): void {}
 
   onClick(clickedLevel: LevelFrontend): void {
     this.levelService.changeSelectedLevel(clickedLevel.levelNumber);
+  }
+
+  private calculateScore(levels: Level[]): number {
+    let score = 0;
+    levels.forEach(level => {
+      if(level.completed)
+        score += (3 - level.usedHints.length);
+    });
+    return score;
   }
 }

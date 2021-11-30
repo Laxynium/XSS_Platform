@@ -50,6 +50,8 @@ app.post(
         await payloadPromise;
         const dialogResult = await dialogPromise;
 
+        await browser.close();
+         
         if (!dialogResult.isValid) {
           res.json({ validationResult: null });
           return;

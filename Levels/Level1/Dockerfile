@@ -35,7 +35,3 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 # USER pptruser
 
 CMD [ "node", "server.js" ]
-### STAG3 2: Run ###
-# FROM nginx:1.21.4-alpine
-# COPY nginx.conf /etc/nginx/nginx.conf
-# COPY --from=buildFront /usr/src/app/dist/level1 /usr/share/nginx/html

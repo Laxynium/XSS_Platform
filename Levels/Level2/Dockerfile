@@ -4,14 +4,6 @@ FROM node:16.13.0-alpine AS buildFront
 # set working directory
 WORKDIR /usr/src/app
 
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-# install app dependencies
-COPY ./front/package.json ./front/package-lock.json ./
-RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
-
 # add app
 COPY ./front/. .
 
@@ -21,7 +13,7 @@ WORKDIR /usr/src/app
 COPY ./server/package.json ./server/package-lock.json ./
 RUN npm install
 COPY ./server/. .
-COPY --from=buildFront /usr/src/app/build /usr/src/app/public
+COPY --from=buildFront /usr/src/app /usr/src/app/public
 
 RUN apk add --no-cache \
       chromium \
@@ -44,6 +36,3 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 # USER pptruser
 CMD npm run build
 CMD [ "node", "server.js" ]
-
-## start app
-#CMD ["npm", "start"]

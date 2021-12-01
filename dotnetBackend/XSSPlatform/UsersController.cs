@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace XSSPlatform
 {
-    
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase
@@ -18,16 +17,17 @@ namespace XSSPlatform
         private readonly LevelsOptions _levelsOptions;
         private readonly UserMapper _userMapper;
 
-        public UsersController(TokenGenerator tokenGenerator, IUserRepository userRepository, LevelsOptions levelsOptions, UserMapper userMapper)
+        public UsersController(TokenGenerator tokenGenerator, IUserRepository userRepository,
+            LevelsOptions levelsOptions, UserMapper userMapper)
         {
             _tokenGenerator = tokenGenerator;
             _userRepository = userRepository;
             _levelsOptions = levelsOptions;
             _userMapper = userMapper;
         }
- 
+
         public record RegisterUserRequest(string Name);
-        
+
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Action([FromBody] RegisterUserRequest request)
         {
@@ -35,24 +35,24 @@ namespace XSSPlatform
             {
                 return BadRequest();
             }
-            
+
             var userId = _tokenGenerator.Generate();
             var levelToken = _tokenGenerator.Generate();
-            
+
             var user = new User(userId, request.Name)
             {
-                Levels = new List<Level> {new() {Number = 1, Completed = false, Token = levelToken}}
+                Levels = new List<Level> { new() { Number = 1, Completed = false, Token = levelToken } }
             };
 
             _userRepository.Save(user);
-            
+
             await AddAuthCookieToResponse(user);
 
             return Ok(_userMapper.ToDto(user));
         }
 
         public record CompleteLevelRequest(int Level, string LevelToken);
-        
+
         [HttpPost("me/levels/complete")]
         [Authorize]
         public ActionResult<UserDto> CompleteLevel([FromBody] CompleteLevelRequest request)
@@ -68,44 +68,44 @@ namespace XSSPlatform
             {
                 return BadRequest();
             }
-            
+
             var level = user.FindLevel(request.Level, request.LevelToken);
             if (level is null)
             {
                 return BadRequest();
             }
-            
+
             user.CompleteLevel(level, _levelsOptions.Count);
 
             if (!user.ChallengeCompleted)
             {
                 var levelToken = _tokenGenerator.Generate();
-                user.AddNextLevel(level, levelToken);    
+                user.AddNextLevel(level, levelToken);
             }
-            
+
             _userRepository.Save(user);
 
             return Ok(_userMapper.ToDto(user));
         }
 
         public record UseHintRequest(int LevelNumber, string LevelToken, int HintNumber);
-        
+
         [HttpPost("me/levels/use-hint")]
         [Authorize]
-        public ActionResult<UserDto> UseHint([FromBody]UseHintRequest request)
+        public ActionResult<UserDto> UseHint([FromBody] UseHintRequest request)
         {
             var userId = HttpContext.User?.Identity?.Name;
             if (userId is null)
             {
                 return NotFound();
             }
-            
+
             var user = _userRepository.Get(userId);
             if (user is null)
             {
                 return BadRequest();
             }
-            
+
             var level = user.FindLevel(request.LevelNumber, request.LevelToken);
             if (level is null)
             {
@@ -118,10 +118,10 @@ namespace XSSPlatform
             }
 
             _userRepository.Save(user);
-            
+
             return Ok(_userMapper.ToDto(user));
         }
-        
+
         [HttpGet("me")]
         [Authorize]
         public ActionResult<UserDto> Get()
@@ -162,5 +162,4 @@ namespace XSSPlatform
                 authProps);
         }
     }
-    
 }

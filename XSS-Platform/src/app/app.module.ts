@@ -22,7 +22,7 @@ import { scoreReducer } from './score.reducer';
     Level1Component,
     Level2Component,
     Level3Component,
-    SafePipe,
+    SafePipe
   ],
   imports: [
     BrowserModule,

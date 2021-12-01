@@ -38,6 +38,16 @@ namespace XSSPlatform
         }
     }
 
+    public record UserMessagesDto
+    {
+        public IReadOnlyList<string> Messages { get; }
+
+        public UserMessagesDto(string[] messages)
+        {
+            Messages = messages;
+        }
+    }
+
     public class UserMapper
     {
         private readonly LevelsOptions _options;
@@ -52,6 +62,11 @@ namespace XSSPlatform
             return new UserDto(user.Id, user.Name, user.ChallengeCompleted, user.Levels
                 .Select(l => new LevelDto(l.Number, l.Completed, l.Token,
                     l.UsedHints.Select(h => new HintDto(h, _options.LevelsHints[l.Number.ToString()][h-1])))));
+        }
+
+        public UserMessagesDto ToDto(List<string> messages)
+        {
+            return new (messages.ToArray());
         }
     }
 }

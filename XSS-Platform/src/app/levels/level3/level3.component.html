@@ -1,14 +1,33 @@
 <div class="router-container">
-
-  <div class="content-header">Level 3</div>
-
-  <div class="level-container">
+  <div class="level-container" *ngIf="!completed">
     <div class="level-description">
-      <div class="header-text">Mission description!</div>
+      <div class="header-text">Misja!</div>
+      <div class="paragraph-text">
+        Ten poziom pokazuje problem Stored Cross-Site Scripting, ktore polega na umieszczeniu kodu javascript po stronie serwerowej.
+      </div>
+      <div class="header-text">Cel</div>
+      <div class="paragraph-text">
+        Aby przejść poziom, nalezy spowodować pojawienie sie alertu w okienku ponizej poprzez wyslanie, a nastepnie pobranie kodu javascript z serwera.
+        Po wykonaniu misji, będziesz miał mozliowść pobrania kodu źródłowego wraz z testami weryfikującymi, czy aplikacja została odpowiednio zabezpieczona.
+      </div>
+
+      <div class="header-text">Your target</div>
     </div>
+
     <div class="frame">
-      <iframe src="http://localhost:3003"></iframe>
+      <iframe id="iframe" class="iframe" src="http://localhost:3003" #iframe></iframe>
+    </div>
+    <button class="hint-button" (click)="showHint()">Show Hint ?</button>
+    <div class="hint-container">
+      <h3 style="text-align: center;">Hits:</h3>
+      <div class="hint-box" #hintBox></div>
     </div>
   </div>
 
+  <div class="level-container" *ngIf="completed">
+    <div class="stars-container">
+      <h1>COMPLETED!</h1>
+    </div>
+    <button class="action-button action-button--primary" (click)="getLevelFiles()">Download files</button>
+  </div>
 </div>

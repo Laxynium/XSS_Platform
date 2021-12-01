@@ -24,6 +24,17 @@ services:
       - CHOKIDAR_USEPOLLING=true
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  level3:
+    container_name: level3
+    build:
+      context: ./Levels/Level3
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   backend:
     container_name: backend
     build:

@@ -7,11 +7,18 @@
 
     <ItemGroup>
         <PackageReference Include="LiteDB" Version="5.0.11" />
+        <PackageReference Include="Optional" Version="5.0.0-alpha" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
       <None Update="LevelsZips\level1.zip">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="LevelsZips\level2.zip">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="LevelsZips\level3.zip">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

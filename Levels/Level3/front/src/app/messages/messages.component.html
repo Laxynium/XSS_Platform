@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+  <button mat-raised-button color="secondary" [routerLink]="['/new-message']">Add message</button>
+  <span class="fill-remaining-space title">Messages</span>
+</mat-toolbar>
+
+<div>
+  <div *ngFor="let message of messages$ | async">
+    <mat-card class="example-card">
+      <mat-card-title>{{message.author}}</mat-card-title>
+      <mat-card-content>
+        <span [innerHtml]="message.content | safeHtml: 'html'"></span>
+      </mat-card-content>
+    </mat-card>
+    <mat-divider></mat-divider>
+  </div>
+
+</div>

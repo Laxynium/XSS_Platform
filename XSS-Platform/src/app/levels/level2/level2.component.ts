@@ -5,9 +5,10 @@ import { Store } from '@ngrx/store';
 import axios, { AxiosRequestConfig } from 'axios';
 import * as saveAs from 'file-saver';
 import { combineLatest, Subject } from 'rxjs';
+import { HintsService } from 'src/app/hints.service';
 import { LevelService } from 'src/app/level.service';
 import { increment } from 'src/app/score.actions';
-import { UserService } from 'src/app/user.service';
+import { Level, UserService } from 'src/app/user.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -23,6 +24,7 @@ export class Level2Component implements OnInit {
 
   completed: boolean = false
   usedHints: number[] = [];
+  token: string = "";
   hints: string[] = [
     'Sprobuj uzyć taga <img>.',
     "Waznym elementem jest 'onerror' event.",
@@ -35,14 +37,20 @@ export class Level2Component implements OnInit {
   constructor(private sanitizer: DomSanitizer,
     public levelService: LevelService,
     private userService: UserService,
+    public hintsService: HintsService,
     private router: Router,
     private store: Store<{ score: number }>,) {
     this.frameUrlStr = 'http://localhost:3002';
     this.frameUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.frameUrlStr);
 
     this.userService.user$.subscribe(user => {
-      this.completed = user?.levels.find(level => level.number === 2)?.completed ?? false;
-    })
+      const level = user?.levels.find(level => level.number === 2);
+      if(level) {
+        this.completed = level.completed;
+        this.token = level.token;
+        this.calculateScore(level);
+      }
+    });
 
     window.addEventListener(
       'message',
@@ -99,10 +107,12 @@ export class Level2Component implements OnInit {
   }
 
   showHint(): void {
-    this.usedHints.push(1);
     const hint = this.hints.shift();
-    if (hint)
+    if (hint) {
+      this.usedHints.push(1);
+      this.hintsService.useHint(3, this.token, this.usedHints.length);
       this.hintBoxElement.nativeElement.innerHTML += `<div class="paragraph-text">${hint}</div>`;
+    }
   }
 
   async getLevelFiles(): Promise<void> {
@@ -127,6 +137,15 @@ export class Level2Component implements OnInit {
       })
       .catch((e) => {
       });
+  }
+
+  private calculateScore(level: Level): number[] {
+    const hints: number[] = [];
+    level.usedHints.forEach(() => {
+      this.usedHints.push(1);
+      this.hints.pop();
+    })
+    return hints;
   }
 
   goToNextLevel(): void {

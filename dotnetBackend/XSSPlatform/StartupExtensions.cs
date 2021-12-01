@@ -66,7 +66,6 @@ namespace XSSPlatform
             Console.WriteLine(environment.ContentRootPath);
             services.AddScoped(sp => new LiteDatabase(Path.Combine(environment.ContentRootPath,"App.db")));
             services.AddScoped<IUserRepository,UserRepository>();
-            services.AddScoped<IUserMessagesRepository,UserMessagesRepository>();
         }
 
         public static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration)

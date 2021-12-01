@@ -14,16 +14,14 @@ namespace XSSPlatform
     {
         private readonly TokenGenerator _tokenGenerator;
         private readonly IUserRepository _userRepository;
-        private readonly IUserMessagesRepository _userMessagesRepository;
         private readonly LevelsOptions _levelsOptions;
         private readonly UserMapper _userMapper;
 
         public UsersController(TokenGenerator tokenGenerator, IUserRepository userRepository,
-            IUserMessagesRepository userMessagesRepository, LevelsOptions levelsOptions, UserMapper userMapper)
+            LevelsOptions levelsOptions, UserMapper userMapper)
         {
             _tokenGenerator = tokenGenerator;
             _userRepository = userRepository;
-            _userMessagesRepository = userMessagesRepository;
             _levelsOptions = levelsOptions;
             _userMapper = userMapper;
         }
@@ -43,7 +41,7 @@ namespace XSSPlatform
 
             var user = new User(userId, request.Name)
             {
-                Levels = new List<Level> {new() {Number = 1, Completed = false, Token = levelToken}}
+                Levels = new List<Level> { new() { Number = 1, Completed = false, Token = levelToken } }
             };
 
             _userRepository.Save(user);
@@ -141,34 +139,6 @@ namespace XSSPlatform
             }
 
             return Ok(user);
-        }
-
-
-        public record RequestMessage(string Content);
-
-        [HttpPost("me/message")]
-        [Authorize]
-        public ActionResult<string[]> PostMessage([FromBody] RequestMessage requestMessage)
-        {
-            var userId = HttpContext.User?.Identity?.Name;
-            if (userId is null)
-            {
-                return NotFound();
-            }
-
-            var user = _userRepository.Get(userId);
-            if (user is null)
-            {
-                return NotFound();
-            }
-
-            var userMessagesOption = _userMessagesRepository.GetById(userId);
-            _userMessagesRepository.Save(userMessagesOption.Match(
-                userMessages => userMessages.AddMessage(requestMessage.Content),
-                () => new UserMessages(userId, new List<string>(new []{requestMessage.Content}))));
-            
-            var resultUserMessages = _userMessagesRepository.GetById(userId);
-            return resultUserMessages.Match<ActionResult>(userMessages => Ok(_userMapper.ToDto(userMessages.Messages)), NotFound);
         }
 
         private async Task AddAuthCookieToResponse(User user)

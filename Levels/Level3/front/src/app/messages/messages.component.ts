@@ -15,7 +15,7 @@ export class MessagesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.messagesService.loadMessages();
+    this.messagesService.loadMessages().subscribe();
   }
 
 }

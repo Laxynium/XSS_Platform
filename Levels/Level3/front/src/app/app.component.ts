@@ -7,6 +7,7 @@ import {XssVerification} from "./xss-verification.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  token: string = '';
   currentLevelToken: string = '';
   @HostListener('window:message', ['$event'])
   onMessage(event: MessageEvent<Event>) {
@@ -23,19 +24,18 @@ export class AppComponent {
     window.alert = () => {
       this.xssVerifier
         .verify("", this.currentLevelToken)
-        .subscribe((response) => {
-          console.log(`Token: ${response.validationResult}`);
-          console.dir(`User messages: ${response.messages}}`);
-          if (!response.validationResult) {            
+        .subscribe((nextLevelToken) => {
+          console.log(`Token: ${nextLevelToken.validationResult}`);
+          if (!nextLevelToken.validationResult) {
             return;
           }
+          this.token = nextLevelToken.validationResult;
           originalAlert('Success');
-          // this.zone.run(() => {
-          //   parent.postMessage('success', '*');
-          //   this.completed = true;
-          // });
+          this.zone.run(() => {
+            parent.postMessage('success', '*');
+          });
         });
-    };
+    };;
   }
 }
 

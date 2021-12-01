@@ -15,7 +15,7 @@
     </div>
 
     <div class="frame">
-      <iframe id="iframe" class="iframe" src="http://localhost:3003"></iframe>
+      <iframe id="iframe" class="iframe" src="http://localhost:3003" #iframe></iframe>
     </div>
     <button class="hint-button" (click)="showHint()">Show Hint ?</button>
     <div class="hint-container">
@@ -26,12 +26,7 @@
 
   <div class="level-container" *ngIf="completed">
     <div class="stars-container">
-      <div *ngFor="let hint of hints">
-        <div class="star-completed">&starf;</div>
-      </div>
-      <div *ngFor="let hint of usedHints">
-        <div class="star">&starf;</div>
-      </div>
+      <h1>COMPLETED!</h1>
     </div>
     <button class="action-button action-button--primary" (click)="getLevelFiles()">Download files</button>
   </div>

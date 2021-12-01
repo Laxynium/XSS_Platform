@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: "level3",
     component: Level3Component
-  },
+  }
 ];
 
 @NgModule({

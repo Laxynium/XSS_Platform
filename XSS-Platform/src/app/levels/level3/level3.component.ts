@@ -88,7 +88,7 @@ export class Level3Component implements OnInit {
     const hint = this.hints.shift();
     if (hint) {
       this.usedHints.push(1);
-      this.hintsService.useHint(1, this.token, this.usedHints.length);
+      this.hintsService.useHint(3, this.token, this.usedHints.length);
       this.hintBoxElement.nativeElement.innerHTML += `<div class="paragraph-text">${hint}</div>`;
     }
   }

@@ -3,9 +3,9 @@ import {LevelService} from "../../level.service";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {increment} from "../../score.actions";
-import {SERVER_URL} from "../../constants";
 import axios, {AxiosRequestConfig} from "axios";
 import {saveAs} from "file-saver";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-level3',
@@ -42,13 +42,14 @@ export class Level3Component implements OnInit {
   }
 
   async getLevelFiles(): Promise<void> {
-    const requestURL = SERVER_URL + '/files/3';
+    const requestURL = new URL("files/2", environment.backendUrl).href;
 
     const axiosOptions: AxiosRequestConfig = {
       responseType: 'arraybuffer',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      withCredentials: true
     }
 
     axios

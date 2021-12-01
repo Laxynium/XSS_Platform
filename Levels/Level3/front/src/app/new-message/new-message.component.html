@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+  <span class="fill-remaining-space title">Create new message</span>
+</mat-toolbar>
+
+<div class="container">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+
+    <mat-form-field class="form-element">
+      <input matInput placeholder="Author" formControlName="author">
+    </mat-form-field>
+
+    <mat-form-field class="form-element">
+      <textarea matInput placeholder="Message content"
+        matTextareaAutosize
+        matAutosizeMinRows="2"
+        matAutosizeMaxRows="5"
+        formControlName="content">
+      </textarea>
+    </mat-form-field>
+
+    <div class="form-element">
+      <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Submit Form</button>
+      <button mat-raised-button color="secondary" type="button" class="button" [routerLink]="['/']">Cancel</button>
+    </div>
+
+  </form>
+</div>

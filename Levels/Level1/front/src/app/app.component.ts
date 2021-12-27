@@ -53,7 +53,6 @@ export class AppComponent {
   }
 
   verify(): void {
-    console.log("VERIFY")
     this.providedString = this.inputElement.nativeElement.value;
   }
 }

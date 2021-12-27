@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "start:front": "npm start --prefix ./front/",
+    "start:cypress": "npx cypress run",
+    "open:cypress": "npx cypress open"
   },
   "private": true,
   "dependencies": {

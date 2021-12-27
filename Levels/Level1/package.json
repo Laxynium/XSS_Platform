@@ -10,7 +10,8 @@
     "start:server": "node ./server/server.js",
     "start:front": "npm start --prefix ./front/",
     "start:cypress": "npx cypress run --project ./front",
+    "open:cypress": "npx cypress open --project ./front",
     "start:app": "npm-run-all --parallel start:server start:front",
-    "verify": "start-server-and-test start:app http://localhost:3001 start:cypress"
+    "verify": "start-server-and-test start:app http://localhost:3001 open:cypress"
   }
 }

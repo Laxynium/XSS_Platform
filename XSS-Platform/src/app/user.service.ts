@@ -48,8 +48,6 @@ export class UserService {
           );
         }),
         tap((user) => {
-          console.log("TAP")
-          console.log(user)
           this._user$.next(user as User);
         }),
         map((_) => {})

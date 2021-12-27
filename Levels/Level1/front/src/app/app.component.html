@@ -4,9 +4,7 @@
 
   <div class="testDiv" [innerHtml]="providedString | safeHtml: 'html'"></div>
   <div class="content">
-    <div class="logo-container">
-      Google
-    </div>
+    <div class="logo-container">Google</div>
     <div class="target-container" *ngIf="!completed">
       <input id="input-xss" class="input-field" type="text" #input/>
       <button id="verify-button" class="btn btn-outline-success" (click)="verify()">Search</button>

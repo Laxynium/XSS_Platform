@@ -3,6 +3,7 @@
 }
 
 .iframe {
+  border-radius: .5rem;
   background-color: grey;
   width: 400px;
   height: 300px;
@@ -64,27 +65,8 @@
   margin: 4px;
   padding: 4px;
   border-radius: .5rem;
-  border: 1px solid white;
 }
 
 .action-button:hover {
   cursor: pointer;
-}
-
-.action-button--primary {
-  background-color:cornflowerblue;
-}
-
-.action-button--primary:hover {
-  background: white;
-  border: 1px solid cornflowerblue;
-}
-
-.action-button--secondary {
-  background-color: grey;
-}
-
-.action-button--secondary:hover {
-  background: white;
-  border: 1px solid grey;
 }

@@ -17,6 +17,7 @@ export class AppComponent {
   providedString: string = '';
   @ViewChild('input') inputElement!: ElementRef;
   token: string = '';
+  url: string = 'https://www.xss-platform.com/Level1';
 
   currentLevelToken: string = '';
   @HostListener('window:message', ['$event'])
@@ -52,6 +53,7 @@ export class AppComponent {
   }
 
   verify(): void {
+    console.log("VERIFY")
     this.providedString = this.inputElement.nativeElement.value;
   }
 }

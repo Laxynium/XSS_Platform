@@ -1,11 +1,17 @@
 
 <div class="level-container">
-  <div class="testDiv" [innerHtml]="providedString | safeHtml: 'html'"></div>
-  <div class="target-container" *ngIf="!completed">
-    <input id="input-xss" class="input-field" type="text" #input/>
-    <button id="verify-button" class="verify-button" (click)="verify()">Verify</button>
-  </div>
+  <input class="form-control url-field" [value]="url" type="text" disabled/>
 
+  <div class="testDiv" [innerHtml]="providedString | safeHtml: 'html'"></div>
+  <div class="content">
+    <div class="logo-container">
+      Google
+    </div>
+    <div class="target-container" *ngIf="!completed">
+      <input id="input-xss" class="input-field" type="text" #input/>
+      <button id="verify-button" class="btn btn-outline-success" (click)="verify()">Search</button>
+    </div>
+  </div>
   <div id="success-container" class="success-container" *ngIf="completed">
     <div class="header-text">Success!!!</div>
   </div>

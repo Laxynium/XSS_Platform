@@ -19,9 +19,9 @@
         <div><label>Url: </label><input type="text" [(ngModel)]="frameUrlStr"><button type="button" (click)="reload()">Reload</button></div>
         <iframe id="iframe" class="iframe" [src]="frameUrl" #iframe (load)="frameLoaded()"></iframe>
       </div>
-      <button class="hint-button" (click)="showHint()">Show Hint ?</button>
+      <button type="button" class="btn btn-outline-primary" (click)="showHint()">Show Hint ?</button>
       <div class="hint-container">
-        <h3 style="text-align: center;">Hits:</h3>
+        <h4 style="text-align: center;">Hits:</h4>
         <div class="hint-box" #hintBox></div>
       </div>
     </div>

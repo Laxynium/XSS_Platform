@@ -93,7 +93,7 @@ app.post(
             await page.waitForSelector("input.input-field");
             await page.focus("input.input-field");
             await page.keyboard.type(payload);
-            await page.click("button.verify-button");
+            await page.click("#verify-button");
             resolve();
           });
         }

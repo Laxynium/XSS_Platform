@@ -1,9 +1,9 @@
 describe('Level 1', () => {
   beforeEach(() => {
+    cy.visit('/');
   });
 
   it('check if all items loaded', () => {
-    cy.visit('/');
     cy.get('.nav-header').should('contain', 'Choose Level');
     cy.get('app-nav-item').should('have.length', 1);
     cy.get('.score-text').should('contain', 'Current score: 0');
@@ -14,7 +14,6 @@ describe('Level 1', () => {
   });
 
   it('should show hints', () => {
-    cy.visit('/');
     cy.get('.hint-box').children().should('have.length', 0);
     cy.get('#hint-button').click();
     cy.get('.hint-box').children().should('have.length', 1);
@@ -27,8 +26,7 @@ describe('Level 1', () => {
   });
 
   it('should solve level', () => {
-    cy.visit('/');
-    mockEndpoints();
+    mockEndpointsLevel1();
     cy.get('#iframe')
       .then(($iframe) => {
         const $body = $iframe.contents().find('body')
@@ -59,8 +57,7 @@ describe('Level 1', () => {
   });
 
   it('should download files', () => {
-    cy.visit('/');
-    mockEndpoints();
+    mockEndpointsLevel1();
     cy.get('#iframe')
       .then(($iframe) => {
         const $body = $iframe.contents().find('body')
@@ -87,8 +84,7 @@ describe('Level 1', () => {
   });
 
   it('should navigate to next level', () => {
-    cy.visit('/');
-    mockEndpoints();
+    mockEndpointsLevel1();
     cy.get('#iframe')
       .then(($iframe) => {
         const $body = $iframe.contents().find('body')
@@ -115,7 +111,7 @@ describe('Level 1', () => {
     });
 });
 
-function mockEndpoints() {
+function mockEndpointsLevel1() {
   cy.intercept('http://localhost:5000/files/1', { result: 'success'}).as('files');
 
   cy.intercept('http://localhost:5000/users/me', {

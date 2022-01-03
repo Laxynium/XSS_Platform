@@ -29,11 +29,11 @@
       </div>
     </div>
 
-  <div class="level-container" *ngIf="completed">
-    <div class="stars-container">
-      <h1>COMPLETED!</h1>
+    <div class="level-container" *ngIf="completed">
+      <div class="stars-container">
+        <h1>COMPLETED!</h1>
+      </div>
+      <button class="action-button btn-primary" (click)="getLevelFiles()">Download files</button>
+      <button class="action-button btn-light" (click)="goToNextLevel()">Go to next level</button>
     </div>
-    <button class="action-button action-button--primary" (click)="getLevelFiles()">Download files</button>
-    <button class="action-button action-button--secondary" (click)="goToNextLevel()">Go to next level</button>
-  </div>
 </div>

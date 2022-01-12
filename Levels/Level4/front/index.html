@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>Wizytówka</h1>
+    <p>Na tej stronie możesz przygotować swoją wizytówkę. Po prostu edytuj poniżej HTML-a.</p>
+    <p>Uwaga: z HTML-a usuwane są potencjalnie złośliwe elementy prowadzące do XSS-a!</p>
+
+    <h2 id=html>HTML</h2>
+    <textarea autofocus style="widtH: 100%;min-height:100px;"></textarea>
+    <h2>Wyczyszczony HTML</h2>
+    <pre wrap id=sanitized-html style="min-height:50px"></pre>
+    <h2>Render</h2>
+    <div id=output style="min-height:50px"></div>
+    <h2>Udostępnianie</h2>
+    <p>Podziel się swoją wizytówką ze znajomymi!</p>
+    <pre wrap id=share-url style="min-height:150px"></pre>
+    
+    <script src="verify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.0.0/purify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-deparam/0.5.1/jquery-deparam.js"></script>    
+    <script src="script.js"></script>    
+    
+</body>
+
+</html>

@@ -127,7 +127,7 @@ export class Level3Component implements OnInit {
   }
 
   goToNextLevel(): void {
-    this.levelService.changeSelectedLevel(2);
-    this.router.navigate(['/level2']);
+    this.levelService.changeSelectedLevel(4);
+    this.router.navigate(['/level4']);
   }
 }

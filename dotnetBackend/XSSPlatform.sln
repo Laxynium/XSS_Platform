@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSSPlatform", "XSSPlatform\XSSPlatform.csproj", "{0B2BEDFB-57BA-433D-9CEA-FBC514B8FBD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSSPlatform.EndToEndTests", "XSSPlatform.EndToEndTests\XSSPlatform.EndToEndTests.csproj", "{6515E50D-8CAA-4DE7-8334-B68721B3B2E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSSPlatform.UnitTests", "XSSPlatform.UnitTests\XSSPlatform.UnitTests.csproj", "{C1A8281D-96C3-4208-BBC5-562ADAD8CD23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{0B2BEDFB-57BA-433D-9CEA-FBC514B8FBD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B2BEDFB-57BA-433D-9CEA-FBC514B8FBD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B2BEDFB-57BA-433D-9CEA-FBC514B8FBD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6515E50D-8CAA-4DE7-8334-B68721B3B2E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6515E50D-8CAA-4DE7-8334-B68721B3B2E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6515E50D-8CAA-4DE7-8334-B68721B3B2E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6515E50D-8CAA-4DE7-8334-B68721B3B2E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A8281D-96C3-4208-BBC5-562ADAD8CD23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A8281D-96C3-4208-BBC5-562ADAD8CD23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A8281D-96C3-4208-BBC5-562ADAD8CD23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A8281D-96C3-4208-BBC5-562ADAD8CD23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

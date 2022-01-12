@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace XSSPlatform
 {
@@ -12,7 +13,8 @@ namespace XSSPlatform
         public string Token { get; }
         public IReadOnlyList<HintDto> UsedHints { get; }
 
-        public LevelDto(int number, bool completed, string token, IEnumerable<HintDto> usedHints)
+        [JsonConstructor]
+        public LevelDto(int number, bool completed, string token, IReadOnlyList<HintDto> usedHints)
         {
             Number = number;
             Completed = completed;
@@ -29,7 +31,7 @@ namespace XSSPlatform
 
         public bool ChallengeCompleted { get; }
 
-        public UserDto(string id, string name, bool challengeCompleted, IEnumerable<LevelDto> levels)
+        public UserDto(string id, string name, bool challengeCompleted, IReadOnlyList<LevelDto> levels)
         {
             Id = id;
             Name = name;
@@ -61,7 +63,8 @@ namespace XSSPlatform
         {
             return new UserDto(user.Id, user.Name, user.ChallengeCompleted, user.Levels
                 .Select(l => new LevelDto(l.Number, l.Completed, l.Token,
-                    l.UsedHints.Select(h => new HintDto(h, _options.LevelsHints[l.Number.ToString()][h-1])))));
+                    l.UsedHints.Select(h => new HintDto(h, _options.LevelsHints[l.Number.ToString()][h - 1])).ToList()))
+                .ToList());
         }
 
         public UserMessagesDto ToDto(List<string> messages)

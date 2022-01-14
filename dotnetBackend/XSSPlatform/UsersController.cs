@@ -29,20 +29,14 @@ namespace XSSPlatform
         public record RegisterUserRequest(string Name);
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Action([FromBody] RegisterUserRequest request)
+        public async Task<ActionResult<UserDto>> RegisterUser([FromBody] RegisterUserRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Name))
             {
                 return BadRequest();
             }
 
-            var userId = _tokenGenerator.Generate();
-            var levelToken = _tokenGenerator.Generate();
-
-            var user = new User(userId, request.Name)
-            {
-                Levels = new List<Level> { new() { Number = 1, Completed = false, Token = levelToken } }
-            };
+            var user = XSSPlatform.User.Create(request.Name, _tokenGenerator);
 
             _userRepository.Save(user);
 
@@ -68,21 +62,13 @@ namespace XSSPlatform
             {
                 return BadRequest();
             }
-
-            var level = user.FindLevel(request.Level, request.LevelToken);
-            if (level is null)
+            
+            var result = user.CompleteLevel(request.Level, request.LevelToken, _levelsOptions.Count, _tokenGenerator);
+            if (!result)
             {
                 return BadRequest();
             }
-
-            user.CompleteLevel(level, _levelsOptions.Count);
-
-            if (!user.ChallengeCompleted)
-            {
-                var levelToken = _tokenGenerator.Generate();
-                user.AddNextLevel(level, levelToken);
-            }
-
+            
             _userRepository.Save(user);
 
             return Ok(_userMapper.ToDto(user));
@@ -106,17 +92,14 @@ namespace XSSPlatform
                 return BadRequest();
             }
 
-            var level = user.FindLevel(request.LevelNumber, request.LevelToken);
-            if (level is null)
+            var result = user.UseHint(request.LevelNumber, request.LevelToken, request.HintNumber,
+                _levelsOptions.LevelsHints);
+
+            if (!result)
             {
                 return BadRequest();
             }
-
-            if (!user.UseHint(level, request.HintNumber, _levelsOptions.LevelsHints))
-            {
-                return BadRequest();
-            }
-
+            
             _userRepository.Save(user);
 
             return Ok(_userMapper.ToDto(user));

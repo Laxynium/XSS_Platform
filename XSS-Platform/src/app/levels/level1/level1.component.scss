@@ -1,72 +1,73 @@
 .testDiv {
-  display: none;
+    display: none;
 }
 
 .iframe {
-  border-radius: .5rem;
-  background-color: grey;
-  width: 400px;
-  height: 300px;
+    border-radius: .5rem;
+    background-color: grey;
+    width: 400px;
+    height: 300px;
 }
 
 .stars-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .star-completed {
-  font-size: 32px;
-  color: yellow;
+    font-size: 32px;
+    color: yellow;
 }
 
 .star {
-  font-size: 32px;
-  color: white;
+    font-size: 32px;
+    color: white;
 }
 
 .hint-button {
-  color: #149414;
-  border: 2px solid #149414;
-  font-weight: bold;
-  margin-top: 1rem;
-  height: 30px;
-  width: 200px;
-  cursor: pointer;
+    color: #149414;
+    border: 2px solid #149414;
+    font-weight: bold;
+    margin-top: 1rem;
+    height: 30px;
+    width: 200px;
+    cursor: pointer;
 }
 
 .hint-button:hover {
-  color: white;
-  background-color: #149414;
+    color: white;
+    background-color: #149414;
 }
 
 .hint-container {
-  position: absolute;
-  bottom: 32px;
-  right: 32px;
-  width: 200px;
-  height: 200px;
-  border: 1px solid white;
-  background-color: white;
-  color: black;
-  border-radius: .5rem;
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid white;
+    background-color: white;
+    color: black;
+    border-radius: .5rem;
+    overflow: auto;
 }
 
 .hint-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: red;
 }
 
 .action-button {
-  width: 200px;
-  margin: 4px;
-  padding: 4px;
-  border-radius: .5rem;
+    width: 200px;
+    margin: 4px;
+    padding: 4px;
+    border-radius: .5rem;
 }
 
 .action-button:hover {
-  cursor: pointer;
+    cursor: pointer;
 }

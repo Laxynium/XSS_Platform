@@ -4,11 +4,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
+export type Hint = { number: number; value: string }
+
 export interface Level {
   number: number;
   completed: boolean;
   token: string;
-  usedHints: { levelNumber: number; value: string }[];
+  usedHints: Hint[];
+  totalHints: number;
 }
 
 export interface User {
@@ -52,5 +55,19 @@ export class UserService {
         }),
         map((_) => {})
       );
+  }
+
+  useHint(levelNumber: number, levelToken: string, hintNumber: number): Observable<User> {
+    return this.httpClient.post<User>(
+      new URL('/users/me/levels/use-hint', environment.backendUrl).href,
+      {
+        levelNumber,
+        levelToken,
+        hintNumber
+      },
+      { withCredentials: true }
+    ).pipe(tap(user=>{
+      this._user$.next(user)
+    }))
   }
 }

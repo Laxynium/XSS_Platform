@@ -121,7 +121,7 @@ namespace XSSPlatform
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(_userMapper.ToDto(user));
         }
 
         private async Task AddAuthCookieToResponse(User user)

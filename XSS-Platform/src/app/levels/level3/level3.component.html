@@ -1,34 +1,38 @@
 <div class="router-container">
-  <div class="level-container" *ngIf="!completed">
-    <div class="level-description">
-      <div class="header-text">Misja!</div>
-      <div class="paragraph-text">
-        Ten poziom pokazuje problem Stored Cross-Site Scripting, ktore polega na umieszczeniu kodu javascript po stronie serwerowej.
-      </div>
-      <div class="header-text">Cel</div>
-      <div class="paragraph-text">
-        Aby przejść poziom, nalezy spowodować pojawienie sie alertu w okienku ponizej poprzez wyslanie, a nastepnie pobranie kodu javascript z serwera.
-        Po wykonaniu misji, będziesz miał mozliowść pobrania kodu źródłowego wraz z testami weryfikującymi, czy aplikacja została odpowiednio zabezpieczona.
-      </div>
+    <div class="level-container" *ngIf="!completed">
+        <div class="level-description">
+            <div class="header-text">Misja!</div>
+            <div class="paragraph-text">
+                Ten poziom pokazuje problem Stored Cross-Site Scripting, ktore polega na umieszczeniu kodu javascript po stronie serwerowej.
+            </div>
+            <div class="header-text">Cel</div>
+            <div class="paragraph-text">
+                Aby przejść poziom, nalezy spowodować pojawienie sie alertu w okienku ponizej poprzez wyslanie, a nastepnie pobranie kodu javascript z serwera. Po wykonaniu misji, będziesz miał mozliowść pobrania kodu źródłowego wraz z testami weryfikującymi, czy aplikacja
+                została odpowiednio zabezpieczona.
+            </div>
 
-      <div class="header-text">Your target</div>
+            <div class="header-text">Your target</div>
+        </div>
+
+        <div class="frame">
+            <iframe id="iframe" class="iframe" src="http://localhost:3003" #iframe></iframe>
+        </div>
+        <button id="hint-button" type="button" class="btn btn-outline-primary" (click)="showHint()">Show Hint ?</button>
+        <div class="hint-container">
+            <h4 style="text-align: center;">Hits:</h4>
+            <div class="hint-box">
+                <div *ngFor="let hint of usedHints" class="paragraph-text">
+                    {{hint.value}}
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="frame">
-      <iframe id="iframe" class="iframe" src="http://localhost:3003" #iframe></iframe>
+    <div class="level-container" *ngIf="completed">
+        <div class="stars-container">
+            <h1>COMPLETED!</h1>
+        </div>
+        <button class="action-button btn-primary" (click)="getLevelFiles()">Download files</button>
+        <button class="action-button btn-light" (click)="goToNextLevel()">Go to next level</button>
     </div>
-    <button id="hint-button" type="button" class="btn btn-outline-primary" (click)="showHint()">Show Hint ?</button>
-    <div class="hint-container">
-      <h4 style="text-align: center;">Hits:</h4>
-      <div class="hint-box" #hintBox></div>
-    </div>
-  </div>
-
-  <div class="level-container" *ngIf="completed">
-    <div class="stars-container">
-      <h1>COMPLETED!</h1>
-    </div>
-    <button class="action-button btn-primary" (click)="getLevelFiles()">Download files</button>
-    <button class="action-button btn-light" (click)="goToNextLevel()">Go to next level</button>
-  </div>
 </div>

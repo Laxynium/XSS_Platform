@@ -89,7 +89,7 @@ namespace XSSPlatform
                 return false;
             }
 
-            if (level.UsedHints.DefaultIfEmpty(0).Min() + 1 != hintNumber)
+            if (level.UsedHints.DefaultIfEmpty(0).Max() + 1 != hintNumber)
             {
                 return false;
             }

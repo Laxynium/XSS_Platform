@@ -12,14 +12,16 @@ namespace XSSPlatform
         public bool Completed { get; }
         public string Token { get; }
         public IReadOnlyList<HintDto> UsedHints { get; }
+        public int TotalHints { get; }
 
         [JsonConstructor]
-        public LevelDto(int number, bool completed, string token, IReadOnlyList<HintDto> usedHints)
+        public LevelDto(int number, bool completed, string token, IReadOnlyList<HintDto> usedHints, int totalHints)
         {
             Number = number;
             Completed = completed;
             Token = token;
             UsedHints = usedHints.ToList();
+            TotalHints = totalHints;
         }
     }
 
@@ -40,16 +42,6 @@ namespace XSSPlatform
         }
     }
 
-    public record UserMessagesDto
-    {
-        public IReadOnlyList<string> Messages { get; }
-
-        public UserMessagesDto(string[] messages)
-        {
-            Messages = messages;
-        }
-    }
-
     public class UserMapper
     {
         private readonly LevelsOptions _options;
@@ -62,14 +54,16 @@ namespace XSSPlatform
         public UserDto ToDto(User user)
         {
             return new UserDto(user.Id, user.Name, user.ChallengeCompleted, user.Levels
-                .Select(l => new LevelDto(l.Number, l.Completed, l.Token,
-                    l.UsedHints.Select(h => new HintDto(h, _options.LevelsHints[l.Number.ToString()][h - 1])).ToList()))
+                .Select(l =>
+                {
+                    var levelHints = _options.LevelsHints[l.Number.ToString()];
+                    return new LevelDto(l.Number, 
+                        l.Completed, 
+                        l.Token,
+                        l.UsedHints.Select(h => new HintDto(h, levelHints[h - 1])).ToList(), 
+                        levelHints.Length);
+                })
                 .ToList());
-        }
-
-        public UserMessagesDto ToDto(List<string> messages)
-        {
-            return new (messages.ToArray());
         }
     }
 }

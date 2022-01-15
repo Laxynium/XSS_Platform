@@ -107,7 +107,7 @@ export class Level1Component implements OnInit {
         const blob = new Blob([response.data], {
           type: 'application/octet-stream',
         });
-        const filename = 'download.zip';
+        const filename = 'level1.zip';
         saveAs(blob, filename);
       })
       .catch((e) => {

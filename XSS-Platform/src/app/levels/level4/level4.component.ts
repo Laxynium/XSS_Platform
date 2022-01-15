@@ -123,7 +123,7 @@ export class Level4Component implements OnInit {
         const blob = new Blob([response.data], {
           type: 'application/octet-stream',
         });
-        const filename = 'download.zip';
+        const filename = 'level4.zip';
         saveAs(blob, filename);
       })
       .catch((e) => {
